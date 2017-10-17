@@ -3,6 +3,8 @@ package de.zalando.play.controllers
 import java.io.File
 
 import akka.util.ByteString
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonInclude.Include
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.scala.DefaultScalaModule
 import de.zalando.play.controllers.WrappedBodyParsers.Parser
@@ -35,7 +37,9 @@ object PlayBodyParsing extends PlayBodyParsing {
     assert(mimeType != null)
     val factory = WriterFactories.factories(mimeType)
     val mapper = new ObjectMapper(factory)
+    mapper.setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
     mapper.registerModule(DefaultScalaModule)
+
     mapper
   }
 
